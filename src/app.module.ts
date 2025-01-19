@@ -1,33 +1,28 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './entities/user.entity';
-import { LikeEntity } from './entities/like.entity';
-import { ProductEntity } from './entities/product.entity';
-import { LikeModule } from './like/like.module';
-import { UsersModule } from './users/users.module';
-import { ProductModule } from './product/product.module';
+import { PostsModule } from './posts/posts.module';
+import { PostEntity } from './entities/post.entity';
+import { dbConfig } from './helpers/env.constants';
+
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      username: 'root',
-      password: 'amir8383',
-      database: 'tss',
-      port: 3306,
-      entities: [UserEntity, ProductEntity, LikeEntity],
-      synchronize: true,
+      type: dbConfig.type,
+      host: dbConfig.host  as string,
+      username: dbConfig.username as string,
+      password: dbConfig.password as string,
+      database: dbConfig.database as string,
+      port: dbConfig.port as number,
+      entities: [PostEntity],
+      // synchronize: true,
       // autoLoadEntities: true,
     }),
-    LikeModule,
-    UsersModule,
-    ProductModule,
+    PostsModule,
+   
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {
   constructor() {}
